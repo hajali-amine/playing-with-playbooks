@@ -4,7 +4,7 @@ on:
   push:
     branches: [ main ]
     paths-ignore:
-      - '**/readme.md'
+      - '**/README.md'
 
 jobs:
   run_playbook:
