@@ -1,0 +1,29 @@
+- name: Install and Start Nginx
+  hosts: ws1
+  become: yes
+  vars:
+    www_forlder: /var/wwww/html
+  tasks:
+   - name: Install Nginx
+     apt:
+      name: nginx
+      state: present
+      update_cache: true
+   - name: Copy the HTML page
+     copy:
+      src: ./www/index.html
+      dest: "{{ www_forlder }}/index.html"
+   - name: Copy a new Nginx's configuration
+     template:
+      src: ./nginx/site.j2
+      dest: /etc/nginx/sites-available/site.com
+   - name: Create a symbolic link to enable the site
+     file:
+      src: /etc/nginx/sites-available/site.com
+      path: /etc/nginx/sites-enabled/default
+      state: link
+   - name: Restart Nginx
+     service:
+      name: nginx
+      state: restarted
+      enabled: true
