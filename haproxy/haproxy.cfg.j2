@@ -1,0 +1,19 @@
+defaults
+  mode http
+  timeout client 10s
+  timeout connect 5s
+  timeout server 10s 
+  timeout http-request 10s
+
+frontend myfrontend
+  bind 0.0.0.0:80
+  default_backend myservers
+
+backend myservers
+  stats enable
+  stats auth admin:admin
+  stats uri /haproxy?stats
+  balance {{ haproxy_algo }}
+{% for ws in groups.ws %}
+  server {{ ws }} {{ hostvars[ws].ansible_host }}:80 check port 80
+{% endfor %}

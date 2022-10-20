@@ -1,9 +1,12 @@
 - name: Install and Start Nginx
-  hosts: ws1
+  hosts: ws
   become: true
   vars:
     www_forlder: /var/wwww/html
   tasks:
+    - name: Get hostnames
+      ansible.builtin.debug:
+        var: ansible_hostname
     - name: Install Nginx
       ansible.builtin.apt:
         name: nginx
@@ -15,13 +18,13 @@
         state: directory
         mode: 0755
     - name: Copy the HTML page
-      ansible.builtin.copy:
-        src: ./www/index.html
+      ansible.builtin.template:
+        src: ../www/index.html.j2
         dest: "{{ www_forlder }}/index.html"
         mode: 0755
     - name: Copy a new Nginx's configuration
       ansible.builtin.template:
-        src: ./nginx/site.j2
+        src: ../nginx/site.com.j2
         dest: /etc/nginx/sites-available/site.com
         mode: 0755
     - name: Create a symbolic link to enable the site

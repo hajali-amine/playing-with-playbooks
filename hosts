@@ -1,1 +1,6 @@
-ws1 ansible_host=13.95.65.51 ansible_user=azureuser
+[ws]
+ws1 ansible_host=104.208.90.43 ansible_user=azureuser
+ws2 ansible_host=104.208.90.127 ansible_user=azureuser
+
+[lb]
+ws-lb ansible_host=104.208.89.166 ansible_user=azureuser

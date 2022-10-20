@@ -1,6 +1,6 @@
 # Playing with Playbooks
 
-The goal of this repository is to test out deploying an Nginx server using the _Congiguration Management_ tool __Ansible__.
+The goal of this repository is to test out deploying an Nginx server using the _Configuration Management_ tool __Ansible__.
 
 ## Process
 

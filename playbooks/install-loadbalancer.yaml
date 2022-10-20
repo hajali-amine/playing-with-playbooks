@@ -1,0 +1,32 @@
+- name: Install and Start HAProxy
+  hosts: lb
+  become: true
+  vars:
+    haproxy_algo: roundrobin
+  tasks:
+    - name: Debug
+      ansible.builtin.debug:
+        var: haproxy_algo
+    # - name: Debug
+    #   ansible.builtin.debug:
+    #     var: hostvars[inventory_hostname]
+    - name: Install HAProxy
+      ansible.builtin.apt:
+        name: haproxy
+        state: present
+        update_cache: true
+    - name: Enable HAProxy
+      ansible.builtin.service:
+        name: haproxy
+        state: started
+        enabled: true
+    - name: Copy HAProxy configuration file
+      ansible.builtin.template:
+        src: ../haproxy/haproxy.cfg.j2
+        dest: /etc/haproxy/haproxy.cfg
+        mode: 0755
+    - name: Restart and enable HAProxy
+      ansible.builtin.service:
+        name: haproxy
+        state: restarted
+        enabled: true
